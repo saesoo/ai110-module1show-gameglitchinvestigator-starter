@@ -23,32 +23,45 @@ It wrote the code, ran away, and now the game is unplayable.
    - Run `pytest` in your terminal.
    - Keep fixing until all tests pass!
 
-## 📝 Document Your Experience
+## 📝 My Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+**Purpose:** A number guessing game built with Streamlit. The player picks a difficulty (Easy 1–20, Normal 1–100, Hard 1–50), then guesses a secret number within a limited number of attempts. Hints say whether to go higher or lower, and the score changes with each guess.
+
+**Bugs found:**
+- The hints were backwards: a guess above the secret said "Go HIGHER!" and a guess below said "Go LOWER!".
+- The New Game button could not restart a finished game. It reset `attempts` and `secret` but not `status`, so the "game over" guard stopped the script after every rerun.
+- New Game also ignored the difficulty range (it always used 1–100), did not reset the score or guess history, and started with a different attempt count than a fresh game. Its success message was never shown because `st.rerun()` ran right after it.
+
+**Fixes applied:**
+- Moved `check_guess` into `logic_utils.py`, imported it in `app.py`, and corrected the hint messages (including the `TypeError` fallback).
+- Rewrote the New Game handler to reset `status`, `score`, `history` and `attempts`, pick the secret from the difficulty range, clear the guess box, and show "New game started." after the rerun.
+- Added pytest cases for hint direction and fixed the existing tests to unpack the `(outcome, message)` tuple.
+
+**Still unfixed:** on even-numbered attempts `app.py` converts the secret to a string before calling `check_guess`, so an exact guess cannot win on those attempts and hints can be wrong. The info box also always says "between 1 and 100" regardless of difficulty.
 
 ## 📸 Demo Walkthrough
 
 Describe your fixed game in numbered steps so a reader can follow along without watching a video:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
-
-**Screenshot** *(optional)*: <!-- Insert a screenshot of your fixed, winning game here -->
+1. Choose your desired game difficulty
+2. Start a game by making a guess in the text box (e.g, 5)
+3. If you guessed incorrectly, keep guessing until you get the correct number, or if you run out of guesses.
+4. Game returns hints for each guess, if toggled on.
+5. Use the New Game button to start a new game.
 
 ## 🧪 Test Results
 
-```
-# Paste your pytest output here, e.g.:
-# pytest tests/
-# ========================= X passed in 0.XXs =========================
-```
+$ pytest tests/ -v
+============================= test session starts ==============================
+collected 6 items
 
-## 🚀 Stretch Features
+tests/test_game_logic.py::test_winning_guess PASSED                      [ 16%]
+tests/test_game_logic.py::test_guess_too_high PASSED                     [ 33%]
+tests/test_game_logic.py::test_guess_too_low PASSED                      [ 50%]
+tests/test_game_logic.py::test_too_high_guess_tells_player_to_go_lower PASSED [ 66%]
+tests/test_game_logic.py::test_too_low_guess_tells_player_to_go_higher PASSED [ 83%]
+tests/test_game_logic.py::test_hint_direction_with_string_secret PASSED  [100%]
 
-- [ ] [If you choose to complete Challenge 4, describe the Enhanced UI changes here — a screenshot is optional]
+============================== 6 passed in 0.01s ===============================
+
+

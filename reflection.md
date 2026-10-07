@@ -76,7 +76,7 @@ Streamlit is a way to run your code as a game. When ran, it creates a session fo
 ## 5. Looking ahead: your developer habits
 
 I want to continue the habit of creating tests in my code to make sure my debugging was effective. 
-I would use Claude a little differently. I want to try utilizing agents more or making it to where Claude asks for questions beforehand.
+I would use Claude a little differently. I want to try utilizing agents more or making it to where Claude asks for questions beforehand. This project showed me that AI-generated code can look polished and still be wrong in small ways, like backwards hints or a button that forgets to reset one variable. I now treat it as a first draft that I have to read, test and verify myself, not as something I can trust because it runs.
 
 - What is one habit or strategy from this project that you want to reuse in future labs or projects?
   - This could be a testing habit, a prompting strategy, or a way you used Git.
