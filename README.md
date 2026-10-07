@@ -51,6 +51,7 @@ Describe your fixed game in numbered steps so a reader can follow along without 
 
 ## 🧪 Test Results
 
+```text
 $ pytest tests/ -v
 ============================= test session starts ==============================
 collected 6 items
@@ -63,5 +64,6 @@ tests/test_game_logic.py::test_too_low_guess_tells_player_to_go_higher PASSED [ 
 tests/test_game_logic.py::test_hint_direction_with_string_secret PASSED  [100%]
 
 ============================== 6 passed in 0.01s ===============================
+```
 
 
